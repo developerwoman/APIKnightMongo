@@ -1,7 +1,9 @@
 ﻿using APIKnightMongo.Models;
 using APIKnightMongo.Repositories.Interfaces;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using static MongoDB.Driver.WriteConcern;
 
 namespace APIKnightMongo.Repositories
 {
@@ -9,7 +11,7 @@ namespace APIKnightMongo.Repositories
     {
         private readonly IMongoCollection<Entities.Attribute> _collection;
         private readonly DbConfiguration _settings;
-        
+
         public AttributeRepository(IMongoDatabase mongoDatabase)
         {
             _collection = mongoDatabase.GetCollection<Entities.Attribute>("knight");
@@ -21,9 +23,9 @@ namespace APIKnightMongo.Repositories
             return attr;
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(string id)
         {
-            return _collection.DeleteOneAsync(c => c.AttributeId == id);
+            return _collection.DeleteOneAsync(c => c._id == id);
         }
 
         public async Task<List<Entities.Attribute>> GetAllAsync()
@@ -31,14 +33,16 @@ namespace APIKnightMongo.Repositories
             return await _collection.Find(c => true).ToListAsync();
         }
 
-        public async Task<Entities.Attribute> GetByIdAsync(int id)
+        public async Task<Entities.Attribute> GetByIdAsync(string id)
         {
-            return await _collection.Find(c => c.AttributeId == id).FirstOrDefaultAsync();
+            return await _collection.Find(c => c._id == id).FirstOrDefaultAsync();
         }
 
-        public Task UpdateAsync(int id, Entities.Attribute attr)
+        public Task UpdateAsync(string id, Entities.Attribute attr)
         {
-            return _collection.ReplaceOneAsync(c => c.AttributeId == id, attr);
+            var filter = Builders<Entities.Attribute>.Filter.Eq(c => c._id, id);
+
+            return _collection.ReplaceOneAsync(filter, attr);
         }
     }
 }
