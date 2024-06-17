@@ -1,5 +1,6 @@
 ﻿using APIKnightMongo.Repositories.Interfaces;
 using APIKnightMongo.Services.Interface;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace APIKnightMongo.Services
@@ -17,7 +18,7 @@ namespace APIKnightMongo.Services
            return await _attrRepository.CreateAsync(attr);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(string id)
         {
             await _attrRepository.DeleteAsync(id);
         }
@@ -27,12 +28,12 @@ namespace APIKnightMongo.Services
             return await _attrRepository.GetAllAsync();
         }
 
-        public async Task<Entities.Attribute> GetByIdAsync(int id)
+        public async Task<Entities.Attribute> GetByIdAsync(string id)
         {
             return await _attrRepository.GetByIdAsync(id);
         }
 
-        public async Task UpdateAsync(int id, Entities.Attribute attr)
+        public async Task UpdateAsync(string id, Entities.Attribute attr)
         {
             await _attrRepository.UpdateAsync(id, attr);
         }

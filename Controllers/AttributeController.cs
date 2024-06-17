@@ -1,5 +1,6 @@
 ﻿using APIKnightMongo.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace APIKnightMongo.Controllers
 {
@@ -20,8 +21,8 @@ namespace APIKnightMongo.Controllers
             return Ok(await _service.GetAllAsync().ConfigureAwait(false));
         }
 
-        [HttpGet("GetById{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<IActionResult> Get(string id)
         {
             var attr = await _service.GetByIdAsync(id);
             if (attr == null)
@@ -40,13 +41,13 @@ namespace APIKnightMongo.Controllers
             }
             await _service.CreateAsync(attr).ConfigureAwait(false);
 
-            return Ok(attr.AttributeId);
+            return Ok(attr._id);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(int id, Entities.Attribute attr)
+        public async Task<IActionResult> Update(string id,[FromBody] Entities.Attribute attr)
         {
-            var existAttr = await _service.GetByIdAsync(id).ConfigureAwait(false);
+            var existAttr = await _service.GetByIdAsync(id).ConfigureAwait(true);
             if (existAttr == null)
             {
                 return NotFound();
@@ -57,7 +58,7 @@ namespace APIKnightMongo.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
             await _service.DeleteAsync(id);
 
