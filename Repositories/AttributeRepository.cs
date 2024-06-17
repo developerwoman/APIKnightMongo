@@ -12,11 +12,6 @@ namespace APIKnightMongo.Repositories
         
         public AttributeRepository(IMongoDatabase mongoDatabase)
         {
-
-            //_settings = settings.Value;
-            //var client = new MongoClient(_settings.ConnectionString);
-            //var database = client.GetDatabase(_settings.DatabaseName);
-            //_collection = database.GetCollection<Entities.Attribute>(_settings.CollectionName);
             _collection = mongoDatabase.GetCollection<Entities.Attribute>("knight");
         }
 
