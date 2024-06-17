@@ -10,19 +10,19 @@ namespace APIKnightMongo.Extensions
             public string DatabaseName { get; set; }
         }
 
-        public static IConfiguration Configuration { get; set; }
+        public static IConfiguration _configuration { get; set; }
 
         public static IServiceCollection AddDatabaseServices(this IServiceCollection services,
             IConfiguration configuration)
         {
-            Configuration = configuration;
-
+            _configuration = configuration;
+           
             services.Configure<MongoDbSettings>(
-                Configuration.GetSection("MongoDbConnection")
+                _configuration.GetSection("MongoDbConnection")
             );
 
             services.AddSingleton<IMongoDatabase>(options => {
-                var settings = Configuration.GetSection("MongoDbConnection").Get<MongoDbSettings>();
+                var settings = _configuration.GetSection("MongoDbConnection").Get<MongoDbSettings>();
                 var client = new MongoClient(settings.ConnectionString);
                 return client.GetDatabase(settings.DatabaseName);
             });
