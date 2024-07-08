@@ -32,6 +32,12 @@ namespace APIKnightMongo.Controllers
             return Ok(attr);
         }
 
+        //[HttpGet("GetHeroes")]
+        //public async Task<IActionResult> GetHeroes(string filter)
+        //{
+             
+        //}
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Entities.Attribute attr)
         {
@@ -47,7 +53,7 @@ namespace APIKnightMongo.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(string id,[FromBody] Entities.Attribute attr)
         {
-            var existAttr = await _service.GetByIdAsync(id).ConfigureAwait(true);
+            var existAttr = await _service.GetByIdAsync(id).ConfigureAwait(false);
             if (existAttr == null)
             {
                 return NotFound();

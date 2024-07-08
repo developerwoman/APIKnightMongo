@@ -19,7 +19,7 @@ namespace APIKnightMongo.Services
             return await _knightRepository.CreateAsync(knight);
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(string id)
         {
             return _knightRepository.DeleteAsync(id);
         }
@@ -28,22 +28,22 @@ namespace APIKnightMongo.Services
             return await _knightRepository.GetAllAsync();
         }
 
-        public async Task<Knight> GetById(int id)
+        public async Task<Knight> GetById(string id)
         {
             return await _knightRepository.GetByIdAsync(id);
         }
 
-        public List<BsonDocument> GetWeaponsByKnightId(int knightId)
+        public List<BsonDocument> GetWeaponsByKnightId(string knightId)
         {
             return _knightRepository.GetWeaponsByKnightIdAsync(knightId);
         }
 
-        public Task UpdateAsync(int id, Knight knight)
+        public Task UpdateAsync(string id, Knight knight)
         {
             return _knightRepository.UpdateAsync(id, knight);
         }
 
-        Task<List<Weapon>> IKnightService.GetWeaponsByKnightId(int knightId)
+        Task<List<Weapon>> IKnightService.GetWeaponsByKnightId(string knightId)
         {
             throw new NotImplementedException();
         }

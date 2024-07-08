@@ -27,7 +27,7 @@ namespace APIKnightMongo.Repositories
             return knight;
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(string id)
         {
             return _collection.DeleteOneAsync(c => c.KnightId == id);
         }
@@ -36,11 +36,11 @@ namespace APIKnightMongo.Repositories
         {
             return await _collection.Find(c => true).ToListAsync();
         }
-        public async Task<Knight> GetByIdAsync(int id)
+        public async Task<Knight> GetByIdAsync(string id)
         {
             return await _collection.Find(c => c.KnightId == id).FirstOrDefaultAsync();
         }
-        public List<BsonDocument> GetWeaponsByKnightIdAsync(int knightId)
+        public List<BsonDocument> GetWeaponsByKnightIdAsync(string knightId)
         {
             var result = _collection
                  .Aggregate()
@@ -55,7 +55,7 @@ namespace APIKnightMongo.Repositories
             return result;           
         }
 
-        public Task UpdateAsync(int id, Knight knight)
+        public Task UpdateAsync(string id, Knight knight)
         {
             return _collection.ReplaceOneAsync(c => c.KnightId == id, knight);
         }
